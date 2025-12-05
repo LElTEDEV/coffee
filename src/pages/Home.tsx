@@ -112,8 +112,13 @@ const COFFEES: CoffeeItemProps[] = [
 export function Home() {
   return (
     <div>
-      <main className="flex flex-col sm:flex-row justify-between mt-6 xl:mt-24 mb-14 xl:mb-24">
-        <div className="max-w-147">
+      <div className="relative flex flex-col sm:flex-row justify-between mt-6 xl:mt-24 mb-14 xl:mb-24">
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute -left-24 top-0 h-64 w-64 rounded-full bg-yellow/30 blur-3xl" />
+          <div className="absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-purple/50 blur-3xl" />
+        </div>
+
+        <main className="max-w-147">
           <h1 className="font-baloo text-baloo-l xl:text-baloo-xl font-extrabold leading-130 text-base-title">
             Encontre o café perfeito para qualquer hora do dia
           </h1>
@@ -168,7 +173,7 @@ export function Home() {
               </InfoContent>
             </div>
           </div>
-        </div>
+        </main>
 
         <img
           src={coffeBanner}
@@ -176,7 +181,7 @@ export function Home() {
           width={300}
           className="self-center lg:w-119 lg:self-start"
         />
-      </main>
+      </div>
 
       <section>
         <h1 className="font-baloo text-baloo-l xl:text-baloo-xl font-extrabold leading-130 text-base-title mb-8 xl:mb-14">
