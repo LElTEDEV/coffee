@@ -36,3 +36,15 @@
   --text-baloo-s: 1.25rem;
   --text-baloo-xs: 1.125rem;
 }
+
+/* Remove setas no Chrome, Safari, Edge */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove setas no Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
