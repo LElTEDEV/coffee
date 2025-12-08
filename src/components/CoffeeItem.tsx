@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Minus, PlusIcon, ShoppingCart } from "lucide-react";
 
 import { Tag } from "./Tag";
+import { useCartContext } from "../context/BagContext";
 
 export type CoffeeItemProps = {
+  id: number;
   title: string;
   description: string;
   image: string;
@@ -12,6 +14,7 @@ export type CoffeeItemProps = {
 };
 
 export function CoffeeItem({
+  id,
   title,
   description,
   price,
@@ -20,12 +23,18 @@ export function CoffeeItem({
 }: CoffeeItemProps) {
   const [amount, setAmount] = useState<number>(0);
 
+  const { addToCart } = useCartContext();
+
   function handleAmountRemove() {
     setAmount((prev) => (prev === 0 ? 0 : (prev -= 1)));
   }
 
   function handleAmountSome() {
     setAmount((prev) => (prev += 1));
+  }
+
+  function handleCartSome() {
+    addToCart({ id, description, image, price, title, type }, amount);
   }
 
   return (
@@ -86,7 +95,10 @@ export function CoffeeItem({
           </button>
         </div>
 
-        <button className="p-2 bg-purple rounded text-white hover:cursor-pointer hover:bg-purple-dark transition ease-in">
+        <button
+          onClick={handleCartSome}
+          className="p-2 bg-purple rounded text-white hover:cursor-pointer hover:bg-purple-dark transition ease-in"
+        >
           <ShoppingCart size={22} />
         </button>
       </div>
