@@ -26,9 +26,7 @@ export function CartContextProvider({ children }: CartContextProps) {
       const itemExists = prev.find((i) => i.name === item.title);
 
       if (itemExists) {
-        return prev.map((i) =>
-          i.name === item.title ? { ...i, amount: i.amount + amount } : i
-        );
+        return prev.map((i) => (i.name === item.title ? { ...i, amount } : i));
       }
 
       return [...prev, { name: item.title, amount }];
