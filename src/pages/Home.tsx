@@ -188,7 +188,7 @@ export function Home() {
           Nossos cafés
         </h1>
 
-        <div className="w-full flex flex-col flex-wrap md:flex-row items-center justify-center lg:justify-start gap-8">
+        <div className="w-full flex flex-col flex-wrap md:flex-row items-center justify-center lg:justify-start gap-x-8 gap-y-10">
           {COFFEES.map((item) => (
             <CoffeeItem
               key={item.title}
