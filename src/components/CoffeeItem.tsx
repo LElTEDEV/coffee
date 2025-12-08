@@ -58,14 +58,17 @@ export function CoffeeItem({
           </span>
         </div>
 
-        <div className="group border border-transparent focus-within:border focus-within:border-purple flex items-center bg-base-button rounded-lg px-2 py-3">
+        <div className="group border border-transparent focus-within:border focus-within:border-purple flex items-center bg-base-button rounded-lg px-2 py-3 h-[38px]">
           <button
             className={`${
               amount === 0 ? "cursor-not-allowed disabled" : "cursor-pointer"
             }`}
             onClick={handleAmountRemove}
           >
-            <Minus size={14} className="text-purple" />
+            <Minus
+              size={14}
+              className={amount === 0 ? "text-red-700/60" : "text-purple"}
+            />
           </button>
 
           <input
