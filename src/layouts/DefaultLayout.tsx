@@ -30,9 +30,11 @@ export function DefaultLayout() {
                 className="text-yellow-dark group-hover:text-white transition-colors ease-in"
               />
 
-              <span className="absolute -top-3 -right-2 bg-yellow rounded-full p-1.5 py-0 text-white text-s">
-                {amountInCart}
-              </span>
+              {amountInCart > 0 && (
+                <span className="absolute -top-3 -right-2 bg-yellow rounded-full p-1.5 py-0 text-white text-s">
+                  {amountInCart}
+                </span>
+              )}
             </NavLink>
           </nav>
         </div>
