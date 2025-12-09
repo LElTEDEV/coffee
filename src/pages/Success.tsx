@@ -1,8 +1,22 @@
+import { useLocation } from "react-router-dom";
 import { Clock, DollarSign, MapPin } from "lucide-react";
-import illustrationSvg from "../assets/illustration.svg";
+
+import type { CheckoutFormInputs } from "./Checkout";
 import { SuccessInfo } from "../components/SuccessInfo";
+import illustrationSvg from "../assets/illustration.svg";
+
+const metodoPagamento = {
+  credit: "Crédito",
+  debit: "Débito",
+  money: "Dinheiro",
+};
 
 export function Success() {
+  const location = useLocation();
+
+  const { street, neighborhood, city, number, uf, paymentMethod } =
+    location.state as CheckoutFormInputs;
+
   return (
     <div className="mt-6 xl:mt-20 flex flex-col md:flex-row items-center gap-20">
       <main>
@@ -17,8 +31,7 @@ export function Success() {
         <section className="lg:w-[526px] border p-10 rounded rounded-tr-4xl rounded-bl-4xl border-yellow mt-5 xl:mt-10 flex flex-col gap-8">
           <SuccessInfo icon={MapPin} className="bg-purple">
             <p className="text-base-text text-xs lg:text-m">
-              Entrega em Rua João Daniel Martinelli, 102 Farrapos - Porto
-              Alegre, RS
+              Entrega em {street}, {number} {neighborhood} - {city}, {uf}
             </p>
           </SuccessInfo>
 
@@ -31,7 +44,7 @@ export function Success() {
           <SuccessInfo icon={DollarSign} className="bg-yellow-dark">
             <p className="text-base-text text-xs lg:text-m">
               Pagamento na entrega{" "}
-              <p className="font-bold">Cartão de Crédito</p>
+              <p className="font-bold">{metodoPagamento[paymentMethod]}</p>
             </p>
           </SuccessInfo>
         </section>
