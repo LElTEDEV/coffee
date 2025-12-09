@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# ☕ Coffee Delivery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação front-end para simular a compra de cafés, com listagem de produtos, carrinho e fluxo de checkout completo (endereço + forma de pagamento).
 
-Currently, two official plugins are available:
+> Projeto desenvolvido para estudo de React, TypeScript, formulários e validação com React Hook Form + Zod.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🔗 Demonstração
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Você pode acessar a aplicação aqui:
 
-## Expanding the ESLint configuration
+👉 **https://LElTEDEV.github.io/coffee**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🖼 Prévia
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Home
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Tela inicial com listagem dos cafés disponíveis e destaque para o banner principal.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Checkout
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Tela de finalização do pedido com formulário de endereço, seleção de forma de pagamento e resumo do carrinho.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+> (Dica: você pode adicionar as imagens dos prints na pasta `public/` e referenciar aqui, por exemplo:  
+> `![Home](./public/home.png)` e `![Checkout](./public/checkout.png)`)
+
+---
+
+## 🎯 Funcionalidades
+
+- Listagem de cafés com:
+  - Nome
+  - Descrição
+  - Tipos (tradicional, gelado, com leite etc.)
+  - Preço
+- Controle de quantidade de cada café
+- Carrinho de compras:
+  - Adicionar/remover itens
+  - Atualizar quantidade
+  - Cálculo do total dos itens
+- Tela de checkout:
+  - Formulário de endereço (CEP, rua, número, complemento, bairro, cidade, UF)
+  - Seleção de método de pagamento:
+    - Cartão de crédito
+    - Cartão de débito
+    - Dinheiro
+  - Validação dos campos com **React Hook Form + Zod**
+- Cálculo de:
+  - Total de itens
+  - Valor de entrega
+  - Total geral do pedido
+
+---
+
+## 🧱 Tecnologias utilizadas
+
+- [React](https://react.dev/) + [Vite](https://vitejs.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [React Router DOM](https://reactrouter.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Zod](https://zod.dev/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- [Lucide React](https://lucide.dev/)
+
+---
+
+## 📁 Estrutura básica do projeto
+
+```bash
+.
+├── src
+│   ├── components
+│   │   ├── CoffeeCardCart.tsx
+│   │   ├── CheckOutCard.tsx
+│   │   ├── PaymentOption.tsx
+│   │   └── Input.tsx
+│   ├── context
+│   │   └── BagContext.tsx
+│   ├── pages
+│   │   ├── Home.tsx
+│   │   └── CheckOut.tsx
+│   ├── router
+│   └── main.tsx
+├── public
+└── ...
 ```
