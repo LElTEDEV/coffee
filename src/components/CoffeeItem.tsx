@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Minus, PlusIcon, ShoppingCart } from "lucide-react";
 
 import { Tag } from "./Tag";
@@ -34,6 +34,8 @@ export function CoffeeItem({
   }
 
   function handleCartSome() {
+    if (amount <= 0) return;
+
     addToCart({ id, description, image, price, title, type }, amount);
   }
 
