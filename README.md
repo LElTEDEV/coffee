@@ -20,12 +20,13 @@ Você pode acessar a aplicação aqui:
 
 Tela inicial com listagem dos cafés disponíveis e destaque para o banner principal.
 
+![Home](./public/home.png)
+
 ### Checkout
 
 Tela de finalização do pedido com formulário de endereço, seleção de forma de pagamento e resumo do carrinho.
 
-> (Dica: você pode adicionar as imagens dos prints na pasta `public/` e referenciar aqui, por exemplo:  
-> `![Home](./public/home.png)` e `![Checkout](./public/checkout.png)`)
+![Checkout](./public/checkout.png)
 
 ---
 
