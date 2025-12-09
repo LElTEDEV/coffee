@@ -30,7 +30,7 @@ const checkoutFormSchema = z.object({
   }),
 });
 
-type CheckoutFormInputs = z.infer<typeof checkoutFormSchema>;
+export type CheckoutFormInputs = z.infer<typeof checkoutFormSchema>;
 
 export function CheckOut() {
   const { amountInCart, cart } = useCartContext();
@@ -59,8 +59,8 @@ export function CheckOut() {
 
   const deliveryPrice = 3.5;
 
-  function handleConfirmOrder() {
-    navigate("/success");
+  function handleConfirmOrder(data: CheckoutFormInputs) {
+    navigate("/success", { state: data });
   }
 
   if (amountInCart <= 0) {
