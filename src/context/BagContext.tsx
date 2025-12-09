@@ -10,8 +10,9 @@ import type { CoffeeItemProps } from "../components/CoffeeItem";
 
 export interface CartContextInterface {
   cart: BagContextItem[];
-  addToCart: (item: CoffeeItemProps, amount: number) => void;
   amountInCart: number;
+  addToCart: (item: CoffeeItemProps, amount: number) => void;
+  handleRemoveToCart: (id: number) => void;
 }
 
 interface BagContextItem {
@@ -43,13 +44,24 @@ export function CartContextProvider({ children }: CartContextProps) {
     });
   }
 
+  function handleRemoveToCart(id: number) {
+    const cartFiltered = cart.filter(({ item }) => item.id !== id);
+
+    return setCart(() => cartFiltered);
+  }
+
   useEffect(() => {
     setAmountInCart(cart.length);
   }, [cart]);
 
   return (
     <CartContext.Provider
-      value={{ cart, amountInCart, addToCart: handleAddToCart }}
+      value={{
+        cart,
+        amountInCart,
+        addToCart: handleAddToCart,
+        handleRemoveToCart,
+      }}
     >
       {children}
     </CartContext.Provider>
