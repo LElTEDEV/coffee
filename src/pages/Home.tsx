@@ -6,6 +6,7 @@ import { CoffeeItem, type CoffeeItemProps } from "../components/CoffeeItem";
 
 const COFFEES: CoffeeItemProps[] = [
   {
+    id: 1,
     title: "Expresso Tradicional",
     description: "O tradicional café feito com água quente e grãos moídos",
     image: "expresso-tradicional",
@@ -13,6 +14,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["TRADICIONAL"],
   },
   {
+    id: 2,
     title: "Expresso Americano",
     description: "Expresso diluído, menos intenso que o tradicional",
     image: "expresso-americano",
@@ -20,6 +22,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["TRADICIONAL"],
   },
   {
+    id: 3,
     title: "Expresso Cremoso",
     description: "Café expresso tradicional com espuma cremosa",
     image: "expresso-cremoso",
@@ -27,6 +30,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["TRADICIONAL"],
   },
   {
+    id: 4,
     title: "Expresso Gelado",
     description: "Bebida preparada com café expresso e cubos de gelo",
     image: "expresso-gelado",
@@ -34,6 +38,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["TRADICIONAL", "GELADO"],
   },
   {
+    id: 5,
     title: "Café com Leite",
     description: "Meio a meio de expresso tradicional com leite vaporizado",
     image: "cafe-com-leite",
@@ -41,6 +46,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["TRADICIONAL", "COM LEITE"],
   },
   {
+    id: 6,
     title: "Latte",
     description:
       "Uma dose de café expresso com o dobro de leite e espuma cremosa",
@@ -49,6 +55,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["TRADICIONAL", "COM LEITE"],
   },
   {
+    id: 7,
     title: "Capuccino",
     description:
       "Bebida com canela feita de doses iguais de café, leite e espuma",
@@ -57,6 +64,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["TRADICIONAL", "COM LEITE"],
   },
   {
+    id: 8,
     title: "Macchiato",
     description:
       "Café expresso misturado com um pouco de leite quente e espuma",
@@ -65,6 +73,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["TRADICIONAL", "COM LEITE"],
   },
   {
+    id: 9,
     title: "Mocaccino",
     description: "Café expresso com calda de chocolate, pouco leite e espuma",
     image: "mocaccino",
@@ -72,6 +81,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["TRADICIONAL", "COM LEITE"],
   },
   {
+    id: 10,
     title: "Chocolate Quente",
     description: "Bebida feita com chocolate dissolvido no leite quente e café",
     image: "chocolate-quente",
@@ -79,6 +89,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["ESPECIAL", "COM LEITE"],
   },
   {
+    id: 11,
     title: "Cubano",
     description:
       "Drink gelado de café expresso com rum, creme de leite e hortelã",
@@ -87,6 +98,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["ESPECIAL", "ALCOÓLICO", "GELADO"],
   },
   {
+    id: 12,
     title: "Havaiano",
     description: "Bebida adocicada preparada com café e leite de coco",
     image: "havaiano",
@@ -94,6 +106,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["ESPECIAL"],
   },
   {
+    id: 13,
     title: "Árabe",
     description: "Bebida preparada com grãos de café árabe e especiarias",
     image: "arabe",
@@ -101,6 +114,7 @@ const COFFEES: CoffeeItemProps[] = [
     type: ["ESPECIAL"],
   },
   {
+    id: 14,
     title: "Irlandês",
     description: "Bebida a base de café, uísque irlandês, açúcar e chantilly",
     image: "irlandes",
@@ -191,7 +205,8 @@ export function Home() {
         <div className="w-full flex flex-col flex-wrap md:flex-row items-center justify-center lg:justify-start gap-x-8 gap-y-10">
           {COFFEES.map((item) => (
             <CoffeeItem
-              key={item.title}
+              key={item.id}
+              id={item.id}
               title={item.title}
               description={item.description}
               image={item.image}
