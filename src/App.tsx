@@ -4,7 +4,7 @@ import { CartContextProvider } from "./context/BagContext";
 
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/coffee">
       <CartContextProvider>
         <AppRoutes />
       </CartContextProvider>
