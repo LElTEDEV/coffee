@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo } from "react";
 import {
   Banknote,
   CreditCard,
@@ -6,21 +6,62 @@ import {
   Landmark,
   MapPinned,
 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+
 import { Input } from "../components/Input";
 import { useCartContext } from "../context/BagContext";
 import { CheckOutCard } from "../components/CheckOutCard";
 import { PaymentOption } from "../components/PaymentOption";
 import { CoffeeCardCart } from "../components/CoffeeCardCart";
-import { NavLink } from "react-router-dom";
+
+const checkoutFormSchema = z.object({
+  cep: z.string().min(8, "Informe o CEP corretamente"),
+  street: z.string().min(1, "Informe a rua"),
+  number: z.string().min(1, "Informe o número"),
+  complement: z.string().optional(),
+  neighborhood: z.string().min(1, "Informe o bairro"),
+  city: z.string().min(1, "Informe a cidade"),
+  uf: z.string().min(2, "UF deve ter 2 letras").max(2, "UF deve ter 2 letras"),
+  paymentMethod: z.enum(["credit", "debit", "money"], {
+    message: "Selecione uma opção de pagamento.",
+  }),
+});
+
+type CheckoutFormInputs = z.infer<typeof checkoutFormSchema>;
 
 export function CheckOut() {
   const { amountInCart, cart } = useCartContext();
-  const [metodPayment, setMetodPayment] = useState("");
+  const navigate = useNavigate();
 
-  const valueTotal = cart.reduce(
-    (prev, current) => (prev += current.item.price * current.amount),
-    0
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useForm<CheckoutFormInputs>({
+    resolver: zodResolver(checkoutFormSchema),
+  });
+
+  const selectedPaymentMethod = watch("paymentMethod");
+
+  const valueTotal = useMemo(
+    () =>
+      cart.reduce(
+        (prev, current) => prev + current.item.price * current.amount,
+        0
+      ),
+    [cart]
   );
+
+  const deliveryPrice = 3.5;
+
+  function handleConfirmOrder() {
+    navigate("/success");
+  }
 
   if (amountInCart <= 0) {
     return (
@@ -33,7 +74,10 @@ export function CheckOut() {
   }
 
   return (
-    <div className="mt-10 flex flex-col lg:flex-row gap-8">
+    <form
+      onSubmit={handleSubmit(handleConfirmOrder)}
+      className="mt-10 flex flex-col lg:flex-row gap-8"
+    >
       <div className="flex flex-1 flex-col gap-4 max-w-[640px]">
         <h1 className="text-base-subtitle font-baloo font-bold text-l">
           Complete seu pedido
@@ -46,18 +90,93 @@ export function CheckOut() {
           className="text-yellow-dark"
         >
           <div className="flex flex-col gap-4">
-            <Input type="text" placeholder="CEP" className="md:max-w-50" />
-            <Input type="text" placeholder="Rua" />
+            <div className="flex flex-col gap-2">
+              <Input
+                type="text"
+                placeholder="CEP"
+                className="md:max-w-50"
+                {...register("cep")}
+              />
+              {errors.cep && (
+                <span className="text-xs text-red-500">
+                  {errors.cep.message}
+                </span>
+              )}
+            </div>
 
-            <div className="flex flex-col md:flex-row md:items-center gap-3">
-              <Input type="number" placeholder="Número" />
-              <Input type="text" placeholder="Complemento" className="flex-1" />
+            <div className="flex flex-col gap-2">
+              <Input type="text" placeholder="Rua" {...register("street")} />
+              {errors.street && (
+                <span className="text-xs text-red-500">
+                  {errors.street.message}
+                </span>
+              )}
             </div>
 
             <div className="flex flex-col md:flex-row md:items-center gap-3">
-              <Input type="text" placeholder="Bairro" />
-              <Input type="text" placeholder="Cidade" className="flex-1" />
-              <Input type="text" placeholder="UF" className="md:max-w-16" />
+              <div className="flex flex-col gap-2">
+                <Input
+                  type="number"
+                  placeholder="Número"
+                  {...register("number")}
+                />
+                {errors.number && (
+                  <span className="text-xs text-red-500">
+                    {errors.number.message}
+                  </span>
+                )}
+              </div>
+
+              <Input
+                type="text"
+                placeholder="Complemento"
+                className="flex-1"
+                {...register("complement")}
+              />
+            </div>
+
+            <div className="flex flex-col md:flex-row md:items-center gap-3">
+              <div className="flex flex-col gap-2">
+                <Input
+                  type="text"
+                  placeholder="Bairro"
+                  {...register("neighborhood")}
+                />
+                {errors.neighborhood && (
+                  <span className="text-xs text-red-500">
+                    {errors.neighborhood.message}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Input
+                  type="text"
+                  placeholder="Cidade"
+                  className="flex-1"
+                  {...register("city")}
+                />
+                {errors.city && (
+                  <span className="text-xs text-red-500">
+                    {errors.city.message}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <Input
+                  type="text"
+                  placeholder="UF"
+                  className="md:max-w-16"
+                  maxLength={2}
+                  {...register("uf")}
+                />
+                {errors.uf && (
+                  <span className="text-xs text-red-500">
+                    {errors.uf.message}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </CheckOutCard>
@@ -75,8 +194,8 @@ export function CheckOut() {
                 label="CARTÃO DE CRÉDITO"
                 id="credit-card"
                 name="payment"
-                checked={metodPayment === "CARTÃO DE CRÉDITO"}
-                onChange={() => setMetodPayment("CARTÃO DE CRÉDITO")}
+                checked={selectedPaymentMethod === "credit"}
+                onChange={() => setValue("paymentMethod", "credit")}
               />
 
               <PaymentOption
@@ -84,8 +203,8 @@ export function CheckOut() {
                 label="CARTÃO DE DÉBITO"
                 id="debit-card"
                 name="payment"
-                checked={metodPayment === "CARTÃO DE DÉBITO"}
-                onChange={() => setMetodPayment("CARTÃO DE DÉBITO")}
+                checked={selectedPaymentMethod === "debit"}
+                onChange={() => setValue("paymentMethod", "debit")}
               />
 
               <PaymentOption
@@ -93,10 +212,16 @@ export function CheckOut() {
                 label="DINHEIRO"
                 id="money"
                 name="payment"
-                checked={metodPayment === "DINHEIRO"}
-                onChange={() => setMetodPayment("DINHEIRO")}
+                checked={selectedPaymentMethod === "money"}
+                onChange={() => setValue("paymentMethod", "money")}
               />
             </div>
+
+            {errors.paymentMethod && (
+              <span className="text-xs text-red-500">
+                {errors.paymentMethod.message}
+              </span>
+            )}
           </CheckOutCard>
         </div>
       </div>
@@ -108,7 +233,7 @@ export function CheckOut() {
 
         <div className="bg-base-card flex flex-col gap-6 xl:items-center rounded-tr-4xl rounded-bl-4xl mt-4 p-10">
           {cart.length > 0 && (
-            <div className="flex flex-col xl:items-center  gap-6">
+            <div className="flex flex-col xl:items-center gap-6">
               {cart.map(({ item, amount }) => (
                 <CoffeeCardCart
                   key={item.id}
@@ -131,25 +256,28 @@ export function CheckOut() {
             </p>
 
             <p className="text-s text-base-text flex justify-between">
-              Entrega <span className="self-end inline">R$ {3.5}</span>
+              Entrega{" "}
+              <span className="self-end inline">
+                R$ {deliveryPrice.toFixed(2)}
+              </span>
             </p>
 
             <p className="text-l text-base-subtitle font-bold flex justify-between">
               Total{" "}
               <span className="self-end inline">
-                R$ {(valueTotal + 3).toFixed(2)}
+                R$ {(valueTotal + deliveryPrice).toFixed(2)}
               </span>
             </p>
           </div>
 
-          <NavLink
-            to="/success"
-            className="w-full text-center py-3 bg-yellow text-white rounded-md text-md font-bold"
+          <button
+            type="submit"
+            className="w-full text-center py-3 bg-yellow text-white rounded-md text-md font-bold disabled:opacity-70 disabled:cursor-not-allowed"
           >
             CONFIRMAR PEDIDO
-          </NavLink>
+          </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }
